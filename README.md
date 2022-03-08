@@ -20,6 +20,9 @@ a ： 标识符
 
 ```
 
+测试代码：  
+cn.bossfridy.protype.expression.test.TokenTest
+
 * **语法分析**   
   1、token序列会经过语法解析器识别出文本中的各类短语。  
   2、根据语言的文法规则输出解析树（AST）。
