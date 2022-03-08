@@ -1,7 +1,7 @@
 package cn.bossfridy.protype.expression.ast;
 
-import cn.bossfridy.protype.expression.test.token.Token;
-import cn.bossfridy.protype.expression.test.token.TokenRegister;
+import cn.bossfridy.protype.expression.token.Token;
+import cn.bossfridy.protype.expression.token.TokenRegister;
 
 import java.io.BufferedReader;
 import java.io.IOException;

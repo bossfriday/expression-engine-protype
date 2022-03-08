@@ -1,4 +1,4 @@
-package cn.bossfridy.protype.expression.test.token;
+package cn.bossfridy.protype.expression.token;
 
 import lombok.Getter;
 
