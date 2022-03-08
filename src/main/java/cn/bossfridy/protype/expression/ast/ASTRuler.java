@@ -1,4 +1,4 @@
-package ast;
+package cn.bossfridy.protype.expression.ast;
 
 public class ASTRuler {
     //当前Token类型 0 none 1 字符串 2 分组 3 token类型 4 引用其他规则

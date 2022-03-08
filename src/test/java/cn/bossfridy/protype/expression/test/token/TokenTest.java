@@ -1,4 +1,4 @@
-package token;
+package cn.bossfridy.protype.expression.test.token;
 
 import java.util.List;
 

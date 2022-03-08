@@ -1,6 +1,6 @@
-package ast;
+package cn.bossfridy.protype.expression.ast;
 
-import token.Token;
+import cn.bossfridy.protype.expression.test.token.Token;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
