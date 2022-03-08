@@ -59,7 +59,6 @@ statementList : statement+ ;
 
 statement : variableStatement
     | expressionStatement
-    | functionStatement
     ;
 
 variableStatement : variableDeclarationList ';' ;
@@ -72,8 +71,13 @@ expressionStatement :  expressionSequence ';' ;
 
 expressionSequence : singleExpression (',' singleExpression)* ;
 
+arguments : '('(argument (',' argument)* ','?)?')' ;
+
+argument : singleExpression | Identifier ;
+
 singleExpression
-    : singleExpression ('+' | '-') singleExpression                         # AdditiveExpression
+    : singleExpression arguments                                            # ArgumentsExpression
+    | singleExpression ('+' | '-') singleExpression                         # AdditiveExpression
     | singleExpression '=' singleExpression                                 # AssignmentExpression
     | singleExpression assignmentOperator singleExpression                  # AssignmentOperatorExpression
     | Identifier                                                            # IdentifierExpression
@@ -86,12 +90,6 @@ assignmentOperator : '*=' | '/=' | '%=' | '+=' | '-=' | '&=' | '^=' | '|=';
 literal : Null  | Boolean | String | MultiLineString | numericLiteral ;
 
 numericLiteral : Float | Integer;
-
-formalParameterList : Identifier (',' Identifier)* ;
-
-functionBody : '{' statementList? '}' ;
-
-functionStatement : 'function' Identifier '(' formalParameterList? ')' functionBody ;
 ```
 
 ## 3、编译器
