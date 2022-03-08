@@ -82,7 +82,6 @@ singleExpression
     | singleExpression assignmentOperator singleExpression                  # AssignmentOperatorExpression
     | Identifier                                                            # IdentifierExpression
     | literal                                                               # LiteralExpression
-    | '(' singleExpression ')'                                              # ParenthesizedExpression
     ;
 
 assignmentOperator : '*=' | '/=' | '%=' | '+=' | '-=' | '&=' | '^=' | '|=';
