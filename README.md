@@ -33,7 +33,7 @@ public static void main(String[] args) throws Exception {
     }
 ```
 
-var a = 1 + 1;  // Comment 分词结果如下（注释由于对脚本执行无意义，直接丢弃处理）：
+分词结果如下（注释由于对脚本执行无意义，直接丢弃处理）：
 
 ```
 Token{value='var', lineNo=0, offset=0, type='Keyword'}
