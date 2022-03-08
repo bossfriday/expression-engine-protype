@@ -1,10 +1,11 @@
-# 项目简介
+> 遵循编译原理主要过程实现1+1=2的Demo原型项目（开发中）
 
-基于编译原理全过程实现1+1=2的Demo原型项目，该项目只是用于简单展示：1、词法分析器；2、语法分析器；3、编译器；4、执行器； 这4个过程。这4个过程是实现自定义脚本引擎的基础。
+# 项目简介
+该项目只是用于简单展示：1、词法分析器；2、语法分析器；3、编译器；4、执行器； 这4个编译原理的主要过程，这4个过程是实现自定义脚本引擎的基础。
 
 # 过程简介
 
-## 1、词法分析器 
+## 1、词法分析器（开发完成） 
   1、扫描源代码文本，从左到右扫描文本，把文本拆成一些单词。  
   2、分析出拆出来的单词是什么：关键字、标识符、符号、，注释……，其结果产物为Token。
 
@@ -45,11 +46,53 @@ Token{value='1', lineNo=0, offset=12, type='Integer'}
 Token{value=';', lineNo=0, offset=13, type='SingleSymbol'}
 ```
 
-## 2、语法分析器 
+## 2、语法分析器（开发完成） 
   1、token序列会经过语法解析器识别出文本中的各类短语。  
   2、根据语言的文法规则输出解析树（AST）。
 
-需要说明的是，我们在实现过程中文法定义由配置文件表达，这样做的好处是在实现脚本多语言时，只需要定义新文法配置文件，然后写对应的statementHandler即可。目前我们的脚本语法选择高度贴合JavaScript，如果未来想搞套其他语言的语法实现则会相对方便（例如.Net支持 C#、VB.Net、JS.Net 3种语法，但编译后生成的中间语言相同）。
+* 语法规则由配置文件表达，这样做的好处是在实现脚本多语言时，只需要定义新文法配置文件，然后写对应的statementHandler即可。目前我们的脚本语法选择高度贴合JavaScript，如果未来想搞套其他语言的语法实现则会相对方便（例如.Net支持 C#、VB.Net、JS.Net 3种语法，但编译后生成的中间语言相同）。
+* 语法规则配置文件本身由语法分析器自身完成解析，语法规则配置文件如下，格式为一行一条数据，每行格式为：[规则名称]：规则表达式。规则表达式中\?\*\+等符号含义同正则表达式对应含义（? 零次或一次；* 零次或多次；+ 一次或多次）
+```
+root : statementList? ;
+
+statementList : statement+ ;
+
+statement : variableStatement
+    | expressionStatement
+    | functionStatement
+    ;
+
+variableStatement : variableDeclarationList ';' ;
+
+variableDeclarationList : 'var' variableDeclaration (',' variableDeclaration)*;
+
+variableDeclaration : Identifier ('=' singleExpression)? ;
+
+expressionStatement :  expressionSequence ';' ;
+
+expressionSequence : singleExpression (',' singleExpression)* ;
+
+singleExpression
+    : singleExpression ('+' | '-') singleExpression                         # AdditiveExpression
+    | singleExpression '=' singleExpression                                 # AssignmentExpression
+    | singleExpression assignmentOperator singleExpression                  # AssignmentOperatorExpression
+    | Identifier                                                            # IdentifierExpression
+    | literal                                                               # LiteralExpression
+    | '(' singleExpression ')'                                              # ParenthesizedExpression
+    ;
+
+assignmentOperator : '*=' | '/=' | '%=' | '+=' | '-=' | '&=' | '^=' | '|=';
+
+literal : Null  | Boolean | String | MultiLineString | numericLiteral ;
+
+numericLiteral : Float | Integer;
+
+formalParameterList : Identifier (',' Identifier)* ;
+
+functionBody : '{' statementList? '}' ;
+
+functionStatement : 'function' Identifier '(' formalParameterList? ')' functionBody ;
+```
 
 ## 3、编译器
   1、根据AST生成四元式。  
