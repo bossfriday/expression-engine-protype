@@ -1,9 +1,12 @@
 package token;
 
+import lombok.Data;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+@Data
 public class Token {
     public String value;
     public int lineNo;
@@ -21,26 +24,12 @@ public class Token {
         this.decode(dataInputStream);
     }
 
-    public int getLineNo() {
-        return lineNo;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
+    /**
+     * encode
+     *
+     * @param dataOutputStream
+     * @throws IOException
+     */
     public void encode(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeUTF(this.getValue());
         dataOutputStream.writeInt(this.getLineNo());
@@ -48,6 +37,12 @@ public class Token {
         dataOutputStream.writeUTF(this.getType());
     }
 
+    /**
+     * decode
+     *
+     * @param dataInputStream
+     * @throws IOException
+     */
     public void decode(DataInputStream dataInputStream) throws IOException {
         this.value = dataInputStream.readUTF();
         this.lineNo = dataInputStream.readInt();
@@ -57,6 +52,11 @@ public class Token {
 
     @Override
     public String toString() {
-        return value;
+        return "Token{" +
+                "value='" + value + '\'' +
+                ", lineNo=" + lineNo +
+                ", offset=" + offset +
+                ", type='" + type + '\'' +
+                '}';
     }
 }
