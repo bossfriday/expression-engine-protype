@@ -21,7 +21,17 @@ a ： 标识符
 ```
 
 测试代码：  
-cn.bossfridy.protype.expression.test.TokenTest
+cn.bossfridy.protype.expression.test.TokenTest  
+var a = 1 + 1;  // Comment 分词结果如下（注释由于对脚本执行无意义，直接丢弃处理）：
+```
+Token{value='var', lineNo=0, offset=0, type='Keyword'}
+Token{value='a', lineNo=0, offset=4, type='Identifier'}
+Token{value='=', lineNo=0, offset=6, type='SingleSymbol'}
+Token{value='1', lineNo=0, offset=8, type='Integer'}
+Token{value='+', lineNo=0, offset=10, type='SingleSymbol'}
+Token{value='1', lineNo=0, offset=12, type='Integer'}
+Token{value=';', lineNo=0, offset=13, type='SingleSymbol'}
+```
 
 * **语法分析**   
   1、token序列会经过语法解析器识别出文本中的各类短语。  
