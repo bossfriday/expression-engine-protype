@@ -64,12 +64,4 @@ public class ScriptTokenRegister extends TokenRegister {
     public List<Token> getTokens(String script) throws Exception {
         return this.lexicalAnalysis(script);
     }
-
-    public static void main(String[] args) throws Exception {
-        String strScript = "var a = 1 + 1; // Comment";
-        ScriptTokenRegister tokenRegister = new ScriptTokenRegister();
-        List<Token> tokens = tokenRegister.getTokens(strScript);
-
-        System.out.println(tokens);
-    }
 }
