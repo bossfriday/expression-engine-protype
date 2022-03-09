@@ -21,8 +21,7 @@ a ： 标识符
 
 ```
 
-测试代码：  
-cn.bossfridy.protype.expression.test.TokenTest  
+测试代码：    
 ```
 public static void main(String[] args) throws Exception {
         String strScript = "var a = 1 + 1; // Comment";
