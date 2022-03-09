@@ -58,5 +58,6 @@ public class Token {
                 ", offset=" + offset +
                 ", type='" + type + '\'' +
                 '}';
+//        return value;
     }
 }
