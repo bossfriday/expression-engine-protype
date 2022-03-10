@@ -70,6 +70,6 @@ public class QuaternionTuple extends Tuple {
                 ", result=" + result +
                 ", end=" + end +
                 ", lineNo=" + p1.getLineNo() +
-                "}\n";
+                "}";
     }
 }

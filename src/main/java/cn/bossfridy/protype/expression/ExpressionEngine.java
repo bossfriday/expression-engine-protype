@@ -24,38 +24,26 @@ public class ExpressionEngine {
      * apply
      */
     public void apply(String script) throws Exception {
-        List<Token> tokens = this.getTokens(script);
+        List<Token> tokens = tokenRegister.getTokens(script);   // 1.词法分析
         System.out.println("---------Tokens-----------");
         tokens.forEach(token -> {
             System.out.println(token.toFullString());
         });
 
-        System.out.println("---------AST Result-----------");
-        ASTMatcher astResult = this.syntacticAnalysis(tokens);
+        System.out.println("---------AST Result-----------");   // 2.语法分析
+        ASTMatcher astResult = astPattern.match(tokens);
         System.out.println(astResult.toString());
 
-        MethodStack methodStack = AbstractStatementHandle.parseMethodStack(astResult);
+
         System.out.println("---------Tuples-----------");
+        MethodStack methodStack = AbstractStatementHandle.parseMethodStack(astResult);  // 3.根据AST生成四元式
         Arrays.asList(methodStack.getTuples()).forEach(tuple -> {
             System.out.println(tuple.toString());
         });
 
+        System.out.println("---------apply-----------");
         TupleExecutor executor = new TupleExecutor(methodStack);
-        executor.apply(null);
-    }
-
-    /**
-     * 词法分析
-     */
-    private List<Token> getTokens(String script) throws Exception {
-        return tokenRegister.getTokens(script);   // 词法分析
-    }
-
-    /**
-     * 语法分析
-     */
-    private ASTMatcher syntacticAnalysis(List<Token> tokens) throws Exception {
-        return astPattern.match(tokens);
+        executor.apply(null);       // 4.四元式执行器
     }
 
     public static void main(String[] args) throws Exception {

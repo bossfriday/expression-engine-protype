@@ -80,6 +80,6 @@ public class FunctionTuple extends Tuple {
                 "name='" + function + '\'' +
                 ", arguments=" + arguments +
                 ", result=" + result +
-                "}\n";
+                "}";
     }
 }

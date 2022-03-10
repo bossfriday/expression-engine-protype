@@ -17,7 +17,7 @@ public class InnerMethodMap {
                 builder.append(args[i].toString());
             }
 
-            System.err.println("printl--->" + builder.toString());
+            System.err.println(builder.toString());
 
             return new RVariable(new NullRValue());
         });
