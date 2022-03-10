@@ -93,7 +93,7 @@ numericLiteral : Float | Integer;
 
 ## 3、编译器
   1、根据AST生成四元式。  
-  2、序列化四元式（有一定压缩优化，如果满大街的很长的标识符，显然很容易对其优化）。  
+  2、序列化四元式（有一定压缩优化，如果满大街的很长的标识符，显然很容易对其优化），由于元组的编解码不是想阐述的核心内容，目前demo中没有实现完全（利用业务时间分享点东西也不容易）。
   关于四元式举个栗子（当然现在大家基本上都是用带返回的用三元式去搞）：
 ```
 5 + 6 -> 四元式:
@@ -107,3 +107,89 @@ numericLiteral : Float | Integer;
 ## 4、执行器  
   1、 简单来说就是按照顺序执行四元式数组，当然还有jump。执行层面基本上就2种情况，顺序执行以及执行到某个位置之后跳到另外的位置。 我们可以想想for循环转换为do while、可以想想if/else的执行，基本上很多的语法都是在基础语法之上包装出来的“语法糖”。    
   2、 由于脚本引擎基于JAVA实现，运行时执行效率只能做到接近JVM，原则上可以做到1个量级左右的差别，运行时尽量避免String.Equal之类的东西，以及本身逻辑尽量避免无谓的性能损耗。这里只是一个原型Demo，在执行器中原始的用：operator.equals("xxx")，显然是不合适的。
+  
+# 测试代码及结果
+测试代码：cn.bossfridy.protype.expression.ExpressionEngine
+```
+public class ExpressionEngine {
+    private ASTPattern astPattern;
+    private ScriptTokenRegister tokenRegister;
+
+    public ExpressionEngine() throws Exception {
+        tokenRegister = new ScriptTokenRegister();
+        astPattern = ASTPattern.compileWithFile("AstParser.conf");
+    }
+
+    /**
+     * apply
+     */
+    public void apply(String script) throws Exception {
+        List<Token> tokens = this.getTokens(script);
+        System.out.println("---------Tokens-----------");
+        tokens.forEach(token -> {
+            System.out.println(token.toFullString());
+        });
+
+        System.out.println("---------AST Result-----------");
+        ASTMatcher astResult = this.syntacticAnalysis(tokens);
+        System.out.println(astResult.toString());
+
+        MethodStack methodStack = AbstractStatementHandle.parseMethodStack(astResult);
+        System.out.println("---------Tuples-----------");
+        Arrays.asList(methodStack.getTuples()).forEach(tuple -> {
+            System.out.println(tuple.toString());
+        });
+
+        TupleExecutor executor = new TupleExecutor(methodStack);
+        executor.apply(null);
+    }
+
+    /**
+     * 词法分析
+     */
+    private List<Token> getTokens(String script) throws Exception {
+        return tokenRegister.getTokens(script);   // 词法分析
+    }
+
+    /**
+     * 语法分析
+     */
+    private ASTMatcher syntacticAnalysis(List<Token> tokens) throws Exception {
+        return astPattern.match(tokens);
+    }
+
+    public static void main(String[] args) throws Exception {
+        String script = "var a = 1 + 1; printl(a);";
+        ExpressionEngine expEngine = new ExpressionEngine();
+        expEngine.apply(script);
+    }
+}
+```
+
+执行结果：
+```
+---------Tokens-----------
+Token{value='var', lineNo=0, offset=0, type='Keyword'}
+Token{value='a', lineNo=0, offset=4, type='Identifier'}
+Token{value='=', lineNo=0, offset=6, type='SingleSymbol'}
+Token{value='1', lineNo=0, offset=8, type='Integer'}
+Token{value='+', lineNo=0, offset=10, type='SingleSymbol'}
+Token{value='1', lineNo=0, offset=12, type='Integer'}
+Token{value=';', lineNo=0, offset=13, type='SingleSymbol'}
+Token{value='printl', lineNo=0, offset=15, type='Identifier'}
+Token{value='(', lineNo=0, offset=21, type='SingleSymbol'}
+Token{value='a', lineNo=0, offset=22, type='Identifier'}
+Token{value=')', lineNo=0, offset=23, type='SingleSymbol'}
+Token{value=';', lineNo=0, offset=24, type='SingleSymbol'}
+---------AST Result-----------
+'root':['statementList':['statement':['variableStatement':['variableDeclarationList':[var, 'variableDeclaration':[a, =, 'singleExpression#AdditiveExpression':['singleExpression#LiteralExpression':['literal':['numericLiteral':[1]]], +, 'singleExpression#LiteralExpression':['literal':['numericLiteral':[1]]]]]], ;]], 'statement':['expressionStatement':['expressionSequence':['singleExpression#ArgumentsExpression':['singleExpression#IdentifierExpression':[printl], 'arguments':[(, 'argument':['singleExpression#IdentifierExpression':[a]], )]]], ;]]]]
+---------Tuples-----------
+QuaternionTuple{p1=1, p2=1, op=+, result=#0, end=false, lineNo=0}
+
+QuaternionTuple{p1=a, p2=#0, op=:=, result=a, end=true, lineNo=0}
+
+FunctionTuple{name='printl', arguments=[a], result=#1}
+
+printl--->2
+```
+
