@@ -1,6 +1,6 @@
 package cn.bossfridy.protype.expression.tuple;
 
-import cn.bossfridy.protype.expression.runtime.ExecuteSequence;
+import cn.bossfridy.protype.expression.runtime.TupleExecutor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,7 +42,7 @@ public abstract class Tuple {
     /**
      * run
      */
-    protected abstract void run(ExecuteSequence executeSequence) throws Exception;
+    protected abstract void run(TupleExecutor tupleExecutor) throws Exception;
 
     /**
      * getLineNo

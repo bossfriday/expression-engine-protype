@@ -3,6 +3,7 @@ package cn.bossfridy.protype.expression;
 import cn.bossfridy.protype.expression.ast.ASTMatcher;
 import cn.bossfridy.protype.expression.ast.ASTPattern;
 import cn.bossfridy.protype.expression.runtime.MethodStack;
+import cn.bossfridy.protype.expression.runtime.TupleExecutor;
 import cn.bossfridy.protype.expression.statement.AbstractStatementHandle;
 import cn.bossfridy.protype.expression.token.ScriptTokenRegister;
 import cn.bossfridy.protype.expression.token.Token;
@@ -38,6 +39,9 @@ public class ExpressionEngine {
         Arrays.asList(methodStack.getTuples()).forEach(tuple -> {
             System.out.println(tuple.toString());
         });
+
+        TupleExecutor executor = new TupleExecutor(methodStack);
+        executor.apply(null);
     }
 
     /**

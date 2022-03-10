@@ -1,6 +1,6 @@
 package cn.bossfridy.protype.expression.tuple;
 
-import cn.bossfridy.protype.expression.runtime.ExecuteSequence;
+import cn.bossfridy.protype.expression.runtime.TupleExecutor;
 import cn.bossfridy.protype.expression.token.Token;
 import lombok.Getter;
 import lombok.Setter;
@@ -65,7 +65,7 @@ public class FunctionTuple extends Tuple {
     }
 
     @Override
-    protected void run(ExecuteSequence executeSequence) throws Exception {
+    protected void run(TupleExecutor tupleExecutor) throws Exception {
 
     }
 
