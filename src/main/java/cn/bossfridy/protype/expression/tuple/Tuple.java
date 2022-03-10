@@ -25,6 +25,10 @@ public abstract class Tuple {
         this.operator = operator;
     }
 
+    public void end() {
+        this.end = true;
+    }
+
     /**
      * write
      */

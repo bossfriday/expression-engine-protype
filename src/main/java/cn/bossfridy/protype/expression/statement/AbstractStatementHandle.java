@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class StatementHandle {
-    private static final Map<String, Class<StatementHandle>> eachMap = new HashMap<>();
+public abstract class AbstractStatementHandle {
+    private static final Map<String, Class<AbstractStatementHandle>> eachMap = new HashMap<>();
     private static int tempResultNo = 0;
 
     static {
-        Reflections reflections = new Reflections("com.rcloud.poc.expression.statement.handle");
-        Set<Class<? extends StatementHandle>> classes = reflections.getSubTypesOf(StatementHandle.class);
-        Class clazz = StatementHandle.class;
+        Reflections reflections = new Reflections("cn.bossfridy.protype.expression.statement.handle");
+        Set<Class<? extends AbstractStatementHandle>> classes = reflections.getSubTypesOf(AbstractStatementHandle.class);
+        Class clazz = AbstractStatementHandle.class;
         classes.forEach(item -> {
             if (!clazz.isAssignableFrom(item)) {
                 return;
@@ -28,7 +28,7 @@ public abstract class StatementHandle {
             }
 
             String[] names = name.value();
-            Class<StatementHandle> handle = (Class<StatementHandle>) item;
+            Class<AbstractStatementHandle> handle = (Class<AbstractStatementHandle>) item;
             for (String s : names) {
                 eachMap.put(s, handle);
             }

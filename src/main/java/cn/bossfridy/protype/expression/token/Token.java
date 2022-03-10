@@ -52,12 +52,15 @@ public class Token {
 
     @Override
     public String toString() {
+        return value;
+    }
+
+    public String toFullString() {
         return "Token{" +
                 "value='" + value + '\'' +
                 ", lineNo=" + lineNo +
                 ", offset=" + offset +
                 ", type='" + type + '\'' +
                 '}';
-//        return value;
     }
 }

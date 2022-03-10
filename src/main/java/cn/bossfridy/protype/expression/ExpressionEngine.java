@@ -2,9 +2,12 @@ package cn.bossfridy.protype.expression;
 
 import cn.bossfridy.protype.expression.ast.ASTMatcher;
 import cn.bossfridy.protype.expression.ast.ASTPattern;
+import cn.bossfridy.protype.expression.runtime.MethodStack;
+import cn.bossfridy.protype.expression.statement.AbstractStatementHandle;
 import cn.bossfridy.protype.expression.token.ScriptTokenRegister;
 import cn.bossfridy.protype.expression.token.Token;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ExpressionEngine {
@@ -23,12 +26,18 @@ public class ExpressionEngine {
         List<Token> tokens = this.getTokens(script);
         System.out.println("---------Tokens-----------");
         tokens.forEach(token -> {
-            System.out.println(token.toString());
+            System.out.println(token.toFullString());
         });
 
-        System.out.println("---------AST-----------");
-        ASTMatcher ast = this.syntacticAnalysis(tokens);
-        System.out.println(ast.toString());
+        System.out.println("---------AST Result-----------");
+        ASTMatcher astResult = this.syntacticAnalysis(tokens);
+        System.out.println(astResult.toString());
+
+        MethodStack methodStack = AbstractStatementHandle.parseMethodStack(astResult);
+        System.out.println("---------Tuples-----------");
+        Arrays.asList(methodStack.getTuples()).forEach(tuple -> {
+            System.out.println(tuple.toString());
+        });
     }
 
     /**

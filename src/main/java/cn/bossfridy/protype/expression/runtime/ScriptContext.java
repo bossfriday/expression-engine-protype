@@ -16,6 +16,18 @@ public class ScriptContext {
         current = new Context();
     }
 
+    public void addTuple(Tuple tuple) {
+        current.tuples.add(tuple);
+    }
+
+    public List<Tuple> getTuples() {
+        return current.tuples;
+    }
+
+    public int size() {
+        return current.tuples.size();
+    }
+
     /**
      * getMethodStack
      */
