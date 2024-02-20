@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ExpressionEngine {
+
     private ASTPattern astPattern;
     private ScriptTokenRegister tokenRegister;
 
@@ -24,26 +25,29 @@ public class ExpressionEngine {
      * apply
      */
     public void apply(String script) throws Exception {
-        List<Token> tokens = tokenRegister.getTokens(script);   // 1.词法分析
+        // 1.词法分析
+        List<Token> tokens = tokenRegister.getTokens(script);
         System.out.println("---------Tokens-----------");
         tokens.forEach(token -> {
             System.out.println(token.toFullString());
         });
 
-        System.out.println("---------AST Result-----------");   // 2.语法分析
+        // 2.语法分析
+        System.out.println("---------AST Result-----------");
         ASTMatcher astResult = astPattern.match(tokens);
         System.out.println(astResult.toString());
 
-
+        // 3.根据AST生成四元式
         System.out.println("---------Tuples-----------");
-        MethodStack methodStack = AbstractStatementHandle.parseMethodStack(astResult);  // 3.根据AST生成四元式
+        MethodStack methodStack = AbstractStatementHandle.parseMethodStack(astResult);
         Arrays.asList(methodStack.getTuples()).forEach(tuple -> {
             System.out.println(tuple.toString());
         });
 
+        // 4.四元式执行器
         System.out.println("---------apply-----------");
         TupleExecutor executor = new TupleExecutor(methodStack);
-        executor.apply(null);       // 4.四元式执行器
+        executor.apply(null);
     }
 
     public static void main(String[] args) throws Exception {
