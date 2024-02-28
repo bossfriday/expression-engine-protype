@@ -1,4 +1,4 @@
-> * [《编译原理抽象语法树生成及执行实例》https://blog.csdn.net/camelials/article/details/123415475](https://blog.csdn.net/camelials/article/details/123415475)
+> [《编译原理抽象语法树生成及执行实例》https://blog.csdn.net/camelials/article/details/123415475](https://blog.csdn.net/camelials/article/details/123415475)
 
 # 项目简介
 打印1+1结果搞得这么复杂并非炫技，只是用于简单展示：1、词法分析器；2、语法分析器；3、脚本编译器；4、编译执行器，四个过程，因为他们是实现自定义脚本引擎的基础。基于这种方式，后续扩展条件（if/else），循环（for/while），其他类型（map，对象，list,set……），其他语法特性（import，匿名函数）等都是比较方便及可控。一套脚本支持了常用数据类型和语法之后，称其为自定义脚本引擎就名副其实了。还需要说明的是：该项目体现的也是all-in-one低代码平台中一分部分思想。
