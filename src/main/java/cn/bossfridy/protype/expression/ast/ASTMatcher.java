@@ -7,36 +7,37 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ASTMatcher {
-    int tokenCount = 0;
+
+    public int tokenCount = 0;
     public LinkedList<Object> source = new LinkedList<>();
-    boolean isSuccess = false;
+    public boolean isSuccess = false;
     public String name = null;
-    int level = 0;
-    boolean hasLeftRecursion = false;
-    boolean hasRightRecursion = false;
+    public int level = 0;
+    public boolean hasLeftRecursion = false;
+    public boolean hasRightRecursion = false;
 
     /**
      * add
      */
     public void add(Object obj) {
         if (obj instanceof Token) {
-            tokenCount++;
+            this.tokenCount++;
         }
 
         if (obj instanceof ASTMatcher) {
             ASTMatcher matcher = (ASTMatcher) obj;
-            tokenCount += matcher.tokenCount;
+            this.tokenCount += matcher.tokenCount;
         }
 
-        source.add(obj);
-        isSuccess = true;
+        this.source.add(obj);
+        this.isSuccess = true;
     }
 
     /**
      * getMatcher
      */
     public ASTMatcher getMatcher(int index) throws Exception {
-        Object object = source.get(index);
+        Object object = this.source.get(index);
         if (object instanceof ASTMatcher) {
             return (ASTMatcher) object;
         }
@@ -48,7 +49,7 @@ public class ASTMatcher {
      * getToken
      */
     public Token getToken(int index) throws Exception {
-        Object object = source.get(index);
+        Object object = this.source.get(index);
         if (object instanceof Token) {
             return (Token) object;
         }
@@ -60,12 +61,15 @@ public class ASTMatcher {
      * addAll
      */
     public void addAll(ASTMatcher matcher) {
-        tokenCount += matcher.tokenCount;
-        source.addAll(matcher.source);
-        isSuccess = true;
+        this.tokenCount += matcher.tokenCount;
+        this.source.addAll(matcher.source);
+        this.isSuccess = true;
     }
 
-    int size() {
+    /**
+     * size
+     */
+    public int size() {
         return this.tokenCount;
     }
 
@@ -74,7 +78,7 @@ public class ASTMatcher {
      */
     public List<Token> toList() {
         List<Token> result = new ArrayList<>();
-        for (Object object : source) {
+        for (Object object : this.source) {
             if (object instanceof Token) {
                 result.add((Token) object);
             } else if (object instanceof ASTMatcher) {
@@ -89,6 +93,6 @@ public class ASTMatcher {
 
     @Override
     public String toString() {
-        return "'" + name + "':" + source;
+        return "'" + this.name + "':" + this.source;
     }
 }

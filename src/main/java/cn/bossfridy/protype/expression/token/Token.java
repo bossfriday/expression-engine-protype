@@ -8,6 +8,7 @@ import java.io.IOException;
 
 @Data
 public class Token {
+
     public String value;
     public int lineNo;
     public int offset;
@@ -52,15 +53,15 @@ public class Token {
 
     @Override
     public String toString() {
-        return value;
+        return this.value;
     }
 
     public String toFullString() {
         return "Token{" +
-                "value='" + value + '\'' +
-                ", lineNo=" + lineNo +
-                ", offset=" + offset +
-                ", type='" + type + '\'' +
+                "value='" + this.value + '\'' +
+                ", lineNo=" + this.lineNo +
+                ", offset=" + this.offset +
+                ", type='" + this.type + '\'' +
                 '}';
     }
 }
